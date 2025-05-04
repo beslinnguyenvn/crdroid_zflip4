@@ -15,7 +15,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y git wget curl python3 bc bison build-essential gcc g++ \
-          zip unzip repo libncurses5 libssl-dev flex liblz4-tool \
+          zip unzip repo libncurses5-dev libssl-dev flex liblz4-tool \
           openjdk-11-jdk
 
     - name: Configure Git
@@ -41,8 +41,8 @@ jobs:
       run: |
         ls -lh crdroid/out/target/product/b4q/*.zip || (echo "Build failed or zip not found!" && exit 1)
 
-          - name: Upload output
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: crdroid_b4q_output
-          path: out/target/product/b4q/*.zip
+    - name: Upload output
+      uses: actions/upload-artifact@v4.3.0
+      with:
+        name: crdroid_b4q_output
+        path: crdroid/out/target/product/b4q/*.zip
