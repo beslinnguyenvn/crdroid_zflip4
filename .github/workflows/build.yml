@@ -18,22 +18,28 @@ jobs:
           zip unzip repo libncurses5 libssl-dev flex liblz4-tool \
           openjdk-11-jdk
 
+    - name: Configure Git
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+
     - name: Initialize Repo
       run: |
         mkdir crdroid && cd crdroid
         repo init -u https://github.com/crdroidandroid/android.git -b 15.0 --git-lfs
-        repo sync -c --no-tags --no-clone-bundle --optimized-fetch --prune
+        repo sync -c --no-tags --no-clone-bundle --optimized-fetch --prune -j4 || \
+        (echo "Retrying repo sync with fewer jobs..." && sleep 10 && repo sync -c --no-tags --no-clone-bundle --optimized-fetch --prune -j2)
 
     - name: Build ROM
       run: |
         cd crdroid
-        . build/envsetup.sh
+        source build/envsetup.sh
         lunch crdroid_b4q-userdebug
         mka bacon
 
     - name: Check output
       run: |
-        ls -l out/target/product/b4q/*.zip || echo "No zip file found"
+        ls -lh crdroid/out/target/product/b4q/*.zip || (echo "Build failed or zip not found!" && exit 1)
 
           - name: Upload output
         uses: actions/upload-artifact@v4.6.2
