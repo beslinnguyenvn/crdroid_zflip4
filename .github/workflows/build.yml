@@ -36,7 +36,7 @@ jobs:
         ls -l out/target/product/b4q/*.zip || echo "No zip file found"
 
           - name: Upload output
-        uses: actions/upload-artifact@v3.0.1
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: crdroid_b4q_output
           path: out/target/product/b4q/*.zip
