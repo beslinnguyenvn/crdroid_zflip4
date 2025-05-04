@@ -39,6 +39,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: crdroid_b4q_output
-        path: $(find out/target/product/b4q -name '*.zip')
-
-
+        path: out/target/product/b4q/*.zip
