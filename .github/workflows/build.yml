@@ -28,11 +28,17 @@ jobs:
       run: |
         cd crdroid
         . build/envsetup.sh
-        lunch lineage_b4q-userdebug
+        lunch crdroid_b4q-userdebug
         mka bacon
+
+    - name: Check output
+      run: |
+        ls -l out/target/product/b4q/*.zip || echo "No zip file found"
 
     - name: Upload output
       uses: actions/upload-artifact@v3
       with:
         name: crdroid_b4q_output
-        path: out/target/product/b4q/*.zip
+        path: $(find out/target/product/b4q -name '*.zip')
+
+
